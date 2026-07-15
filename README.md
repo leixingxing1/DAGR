@@ -432,7 +432,7 @@ If you find this work useful, please cite:
 ```bibtex
 @misc{lei2026dagr,
   title         = {{DAGR}: State-Conditioned Goal Representations via Difference-Aware Goal Cross-Attention},
-  author        = {Lei, Xing and Yang, Wenyan and Zhang, Xuetao and Wang, Donglin},
+  author        = {Xing Lei and Wenyan Yang and Xuetao Zhang and Donglin Wang},
   year          = {2026},
   eprint        = {XXXX.XXXXX},
   archivePrefix = {arXiv},
