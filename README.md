@@ -389,11 +389,14 @@ harmful there. State-conditioning helps; the discrepancy-maximizing bias does no
 If you find this work useful, please cite:
 
 ```bibtex
-@inproceedings{dagr,
-  title     = {{DAGR}: State-Conditioned Goal Representations via Difference-Aware Goal Cross-Attention},
-  author    = {Anonymous},
-  booktitle = {Under review},
-  year      = {2026}
+@misc{lei2026dagr,
+  title         = {{DAGR}: State-Conditioned Goal Representations via Difference-Aware Goal Cross-Attention},
+  author        = {Lei, Xing and Yang, Wenyan and Zhang, Xuetao and Wang, Donglin},
+  year          = {2026},
+  eprint        = {XXXX.XXXXX},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/XXXX.XXXXX}
 }
 ```
 
