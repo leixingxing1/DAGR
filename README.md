@@ -7,6 +7,12 @@ refines a *state-independent* goal embedding `φ(g)` into a *state-conditioned* 
 DAGR is layered on top of the **Dual** goal representation and trained end-to-end with **GCIVL** as the
 downstream offline GCRL algorithm, and is evaluated on **[OGBench](https://github.com/seohongpark/ogbench)**.
 
+> **Built on [Dual Goal Representations](https://github.com/deepindermann/dual-goal-representations).**
+> This repository extends the official Dual code release (MIT licensed). The training loop, the GCIVL
+> agents, the representation-learning baselines, the dataset pipeline, and the evaluation protocol are
+> inherited from it. DAGR is the delta on top — see
+> [Relation to the Base Codebase](#relation-to-the-base-codebase) for the exact file-level split.
+
 > **TL;DR** — Late-fusion goal encoders never see the current state, so `φ(g)` gives every state the same
 > hint ("goal is over there"). DAGR turns it into a per-state hint ("go this way next") by cross-attending
 > the goal query to state pseudo-tokens, biased by a per-token state–goal discrepancy map. A gated residual
@@ -20,6 +26,7 @@ downstream offline GCRL algorithm, and is evaluated on **[OGBench](https://githu
 - [Key Idea](#key-idea)
 - [What DAGR is (and is not)](#what-dagr-is-and-is-not)
 - [Repository Structure](#repository-structure)
+- [Relation to the Base Codebase](#relation-to-the-base-codebase)
 - [Code ↔ Paper Naming](#code--paper-naming)
 - [Installation](#installation)
 - [Dataset Setup (read this first)](#dataset-setup-read-this-first)
@@ -28,6 +35,7 @@ downstream offline GCRL algorithm, and is evaluated on **[OGBench](https://githu
 - [Main Hyperparameters](#main-hyperparameters)
 - [Results](#results)
 - [Citation](#citation)
+- [License](#license)
 - [Acknowledgments](#acknowledgments)
 
 ---
@@ -141,6 +149,39 @@ required dependency of every agent.
 
 ---
 
+## Relation to the Base Codebase
+
+This repository is an extension of the official
+[Dual Goal Representations](https://github.com/deepindermann/dual-goal-representations) implementation
+(MIT license). Everything required to reproduce the *baselines* comes from there. DAGR is the delta.
+
+**Inherited from the Dual codebase** (unmodified or lightly adapted):
+
+| Component | Files |
+|-----------|-------|
+| Training entry point | `main.py` |
+| Dual representation | `utils/dual.py`, `agents/gcivl/{state,pixel}/dual.py` |
+| Other rep. baselines | `agents/gcivl/**/{vib,tra,byol,vip}.py`, `utils/vib.py` |
+| Data pipeline | `utils/datasets.py`, `utils/env_utils.py` |
+| Networks / encoders | `utils/networks.py`, `utils/encoders.py` |
+| Infrastructure | `utils/evaluation.py`, `utils/flax_utils.py`, `utils/log_utils.py` |
+
+**Added by this work:**
+
+| Component | Files |
+|-----------|-------|
+| ★ MS-DGCA module (DAGR) | `utils/ms_cross_attention.py` |
+| `+CA` ablation module | `utils/cross_attention.py` |
+| Spatial variant (experimental) | `utils/spatial_cross_attention.py` |
+| DAGR / `+CA` agents | `agents/gcivl/{state,pixel}/dual_ms_crossattn.py`, `.../dual_crossattn.py`, `agents/gcivl/pixel/*_crossattn.py` |
+| Launcher | `hyperparameters_ms_crossattn.sh` (extends the base `hyperparameters.sh`) |
+| Result aggregation | `attention_results.py` |
+
+Because the agent interface is unchanged, every command from the base repository still works here, and the
+Dual / VIB / TRA / BYOL-γ / VIP baselines can be run from this repository directly.
+
+---
+
 ## Code ↔ Paper Naming
 
 The code was written under the working name **MS-SAGE** ("Multi-Scale State-Aware Goal Encoder"); the paper
@@ -170,15 +211,15 @@ conda activate dagr
 pip install --upgrade "jax[cuda12]"   # or jax[cuda11] / CPU-only jax
 
 # 3. Install the remaining dependencies
-pip install flax optax distrax ml_collections numpy tqdm wandb absl-py \
-            gymnasium pillow pandas
+pip install -r requirements.txt
 
 # 4. Install OGBench (environments + datasets)
 pip install ogbench
 ```
 
 Core dependencies used by the code: `jax`, `flax`, `optax`, `distrax`, `ml_collections`, `numpy`, `ogbench`,
-`gymnasium`, `wandb`, `absl-py`, `tqdm`, `pillow` (logging/video), `pandas` (result aggregation).
+`gymnasium`, `wandb`, `absl-py`, `tqdm`, `pillow` (logging/video), `pandas` (result aggregation). DAGR adds no
+dependency beyond those already required by the base Dual codebase.
 
 ---
 
@@ -400,7 +441,26 @@ If you find this work useful, please cite:
 }
 ```
 
-*(Update the entry with the final author list and venue once available.)*
+*(The arXiv ID will be filled in once the paper is announced.)*
+
+Please also cite the base representation this work builds on:
+
+```bibtex
+@inproceedings{park2026dual,
+  title     = {Dual Goal Representations},
+  author    = {Park, Seohong and Mann, Deepinder and Levine, Sergey},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2026}
+}
+```
+
+---
+
+## License
+
+Released under the **MIT License**, inherited from the
+[Dual Goal Representations](https://github.com/deepindermann/dual-goal-representations) codebase this
+repository is derived from. See [LICENSE](LICENSE) for the full text and the upstream copyright notice.
 
 ---
 
@@ -409,7 +469,13 @@ If you find this work useful, please cite:
 DAGR builds directly on prior work and reuses its experimental scaffolding:
 
 - **OGBench** — Park et al., *Benchmarking Offline Goal-Conditioned RL*, ICLR 2025.
-- **Dual goal representation** — Park et al., *Dual Goal Representations*, ICLR 2026 (the base `φ(g)` DAGR refines).
+  [[code]](https://github.com/seohongpark/ogbench)
+- **Dual goal representation** — Park et al., *Dual Goal Representations*, ICLR 2026
+  ([arXiv:2510.06714](https://arxiv.org/abs/2510.06714)) — the base `φ(g)` that DAGR refines.
+  **This repository is built directly on the official Dual code release
+  ([github.com/deepindermann/dual-goal-representations](https://github.com/deepindermann/dual-goal-representations),
+  MIT license):** the GCIVL training loop, the `Dual` agents, the representation-learning baselines, the
+  dataset pipeline, and the evaluation protocol all come from it.
 - **GCIVL** — the downstream offline GCRL algorithm (implicit V-learning), Kostrikov et al., 2022 / Park et al., 2025.
 
 DAGR is **orthogonal and composable**: it operates on the output `φ(g)` of any late-fusion goal encoder rather

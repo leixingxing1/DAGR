@@ -1,8 +1,40 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# DAGR requirements
+#
+# JAX with GPU support must be installed SEPARATELY and matched to your CUDA
+# version — do not rely on this file for it. See:
+#   https://docs.jax.dev/en/latest/installation.html
+#
+#   pip install --upgrade "jax[cuda12]"     # CUDA 12
+#   pip install --upgrade "jax[cuda11]"     # CUDA 11
+#   pip install --upgrade jax               # CPU only
+#
+# Then:
+#   pip install -r requirements.txt
+#
+# Versions are lower bounds, not pins. If you hit a jax/flax incompatibility,
+# pin the pair that works on your cluster.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# --- Core JAX stack ----------------------------------------------------------
+jax>=0.4.20
+flax>=0.8.0
+optax>=0.1.7
+distrax>=0.1.4
+
+# --- Config / CLI ------------------------------------------------------------
+ml_collections>=0.1.1
+absl-py>=1.4.0
+
+# --- Environments and datasets -----------------------------------------------
 ogbench
-jax[cuda12] >= 0.4.26
-flax >= 0.8.4
-distrax >= 0.1.5
-ml_collections
-matplotlib
-moviepy
-wandb
+gymnasium>=0.29.0
+numpy>=1.24.0
+
+# --- Logging and evaluation --------------------------------------------------
+wandb>=0.16.0
+tqdm>=4.65.0
+pillow>=9.5.0
+
+# --- Result aggregation (attention_results.py) -------------------------------
+pandas>=2.0.0
