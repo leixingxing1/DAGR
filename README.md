@@ -442,18 +442,6 @@ If you find this work useful, please cite:
 ```
 
 *(The arXiv ID will be filled in once the paper is announced.)*
-
-Please also cite the base representation this work builds on:
-
-```bibtex
-@inproceedings{park2026dual,
-  title     = {Dual Goal Representations},
-  author    = {Park, Seohong and Mann, Deepinder and Levine, Sergey},
-  booktitle = {International Conference on Learning Representations (ICLR)},
-  year      = {2026}
-}
-```
-
 ---
 
 ## License
