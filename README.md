@@ -430,20 +430,16 @@ harmful there. State-conditioning helps; the discrepancy-maximizing bias does no
 If you find this work useful, please cite:
 
 ```bibtex
-@misc{lei2026dagr,
-  title         = {{DAGR}: State-Conditioned Goal Representations via Difference-Aware Goal Cross-Attention},
-  author        = {Xing Lei and Wenyan Yang and Xuetao Zhang and Donglin Wang},
-  year          = {2026},
-  eprint        = {XXXX.XXXXX},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.LG},
-  url           = {https://arxiv.org/abs/XXXX.XXXXX}
+@misc{lei2026dagrstateconditionedgoalrepresentations,
+      title={DAGR: State-Conditioned Goal Representations via Difference-Aware Goal Cross-Attention}, 
+      author={Xing Lei and Wenyan Yang and Xuetao Zhang and Donglin Wang},
+      year={2026},
+      eprint={2607.13731},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2607.13731}, 
 }
 ```
-
-*(The arXiv ID will be filled in once the paper is announced.)*
-
----
 
 ## License
 
